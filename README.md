@@ -59,6 +59,12 @@ Experience the application in action:
 
 **[Explore the Live Demo](https://materialpassport.blazorserver.com/)**
 
+[![HR Cloud](doc/hrhub-marketing.png)](https://hrcloud.blazorserver.com/)
+
+**HR Cloud (HRHub)** is a labor outsourcing HR service platform connecting employers, suppliers, and HR teams. It integrates employee management, device-based attendance tracking, shift-based work hours, and automated monthly billing in one workflow.
+
+**[GitHub](https://github.com/neozhu/hrhub)** | **[Explore the Live Demo](https://hrcloud.blazorserver.com/)**
+
 ## 🛠️ Technology Stack
 
 | Layer | Technologies |
@@ -74,17 +80,11 @@ Experience the application in action:
 
 ## 🏗️ Architecture Overview
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Server.UI     │    │  Application    │    │     Domain      │
-│   (Blazor)      │───▶│   (Business)    │───▶│   (Entities)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                        │                        
-         │              ┌─────────────────┐               
-         └─────────────▶│ Infrastructure  │               
-                        │   (Data/IO)     │               
-                        └─────────────────┘               
-```
+The diagram shows runtime calls and domain model usage. Application calls Infrastructure implementations through Application-owned interfaces; these arrows do not represent compile-time project references.
+
+![CleanBlazorServerPro architecture: Blazor UI, Application use cases, Domain models, and Infrastructure adapters](doc/architecture.svg)
+
+[Download the interactive Archify diagram](doc/architecture.html) and open it locally to inspect source references, switch themes, and export images. 
 
 ### Layer Responsibilities
 
