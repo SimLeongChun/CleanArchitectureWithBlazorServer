@@ -1,64 +1,31 @@
-## Purpose
+# Repository guidance
 
-This file helps AI coding agents work effectively in this repository. Use it as a fast orientation guide before making changes.
+This repository is a Clean Architecture Blazor Server solution. See `README.md` for setup and `docs/` for project documentation.
 
-## Project Overview
+## Project structure
 
-This repository is a Clean Architecture Blazor Server solution template built for long-term maintainability, modular feature development, and enterprise-style application patterns.
+- `src/Domain`: entities, domain events, and business rules. Keep this layer independent of UI and infrastructure.
+- `src/Application`: use cases, DTOs, validators, specifications, and service contracts. Feature code lives in `src/Application/Features`.
+- `src/Infrastructure`: persistence, authentication, caching, background jobs, and external integrations.
+- `src/Server.UI`: the Blazor Server host, pages, components, and UI services.
+- `src/Migrators`: EF Core migration projects for SQL Server, PostgreSQL, and SQLite.
+- `tests/`: application, domain, and infrastructure test projects.
+- `docs/superpowers/`: design notes, plans, and implementation specifications when needed.
 
-The main application layers are:
+## Working in this repository
 
-- `Domain`: core entities, domain events, and business rules
-- `Application`: use cases, DTOs, validation, pipeline behaviors, and application abstractions
-- `Infrastructure`: persistence, external integrations, identity, caching, and runtime services
-- `Server.UI`: Blazor Server UI, pages, components, and client-facing application wiring
-- `Migrators`: EF Core migration entry points and database update tooling
-
-## Solution Map
-
-- `src/Application`
-  Application logic and feature implementation. Start here for commands, queries, validators, specifications, and service contracts.
-- `src/Domain`
-  Domain model and business concepts. Keep this layer independent of UI and infrastructure concerns.
-- `src/Infrastructure`
-  EF Core, authentication, file services, caching, background jobs, and other external dependencies.
-- `src/Migrators`
-  Database migration projects used for provider-specific EF Core migration work.
-- `src/Server.UI`
-  Blazor Server host, pages, components, menus, dialogs, and UI services.
-- `tests/Application.UnitTests`
-  Unit tests for application-layer behavior.
-- `tests/Application.IntegrationTests`
-  Integration-style tests for application workflows and persistence-backed behavior.
-- `tests/Domain.UnitTests`
-  Unit tests focused on domain behavior.
-- `tests/Infrastructure.UnitTests`
-  Tests for infrastructure services and related helpers.
-- `docs/`
-  Supporting project documentation.
-- `docs/superpowers/`
-  Recommended place for design notes, plans, and implementation specs when a task needs explicit planning.
-
-## Working Guidance
-
-- Preserve Clean Architecture boundaries. Avoid introducing UI or infrastructure concerns into `Domain`.
-- Prefer existing repository patterns over inventing new ones. Match nearby features before creating new abstractions.
-- When adding a new feature, inspect similar modules in `Application`, `Infrastructure`, and `Server.UI` first.
-- Keep changes targeted. Do not refactor unrelated areas unless the task requires it.
+- Keep changes focused and follow nearby project patterns. Do not refactor unrelated code.
+- Preserve Clean Architecture boundaries. Before adding a feature, inspect similar code in `Application`, `Infrastructure`, and `Server.UI`.
 - Update documentation when setup steps, commands, or workflows change.
-- If a task benefits from explicit design or planning, add artifacts under `docs/superpowers/` rather than inventing a separate process.
+- Explain assumptions when behavior is unclear. Keep changes small and reviewable.
+- Run the narrowest meaningful verification. Report when verification could not be performed.
 
-## Common Commands
+## Common commands
 
-Build the solution:
+Build and test the solution:
 
 ```bash
 dotnet build CleanArchitecture.Blazor.slnx
-```
-
-Run tests:
-
-```bash
 dotnet test CleanArchitecture.Blazor.slnx
 ```
 
@@ -68,30 +35,14 @@ Run the Blazor Server app:
 dotnet run --project src/Server.UI
 ```
 
-Add an EF Core migration for SQL Server:
+Create a SQL Server migration. Replace `<MigrationName>` with a new name:
 
 ```bash
-dotnet ef migrations add InitialCreate --project src/Migrators/Migrators.MSSQL --startup-project src/Server.UI --context ApplicationDbContext
+dotnet ef migrations add <MigrationName> --project src/Migrators/Migrators.MSSQL --startup-project src/Server.UI --context ApplicationDbContext --output-dir Migrations
 ```
 
-Apply database updates:
+Apply SQL Server migrations:
 
 ```bash
 dotnet ef database update --project src/Migrators/Migrators.MSSQL --startup-project src/Server.UI --context ApplicationDbContext
 ```
-
-## Where To Look First
-
-- `README.md` for project overview, setup, and supported workflows
-- `docs/` for additional repository documentation
-- existing feature folders in `src/Application/Features` and related UI pages in `src/Server.UI`
-- `docs/superpowers/` for prior design notes and implementation plans when available
-
-## Expected Output Style
-
-When making changes in this repository:
-
-- favor small, reviewable edits
-- explain assumptions when behavior is unclear
-- verify builds or tests when the task meaningfully changes behavior
-- keep new guidance aligned with the current repository structure instead of generic best practices
